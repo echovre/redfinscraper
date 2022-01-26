@@ -46,9 +46,10 @@ class CCLI_scraper():
     def redfin(self,page):
         results={}
         browser.get(page)
-        parent=browser.find_element_by_xpath('//*[@id="propertyDetails-collapsible"]/div[2]/div/div/div[1]/div[4]')
+        parent=browser.find_element_by_xpath('//*[@id="propertyDetails-collapsible"]/div[2]')
         children=parent.find_elements_by_class_name('amenity-group')
         for child in children:
+          print(child)
           section=child.find_element_by_class_name('propertyDetailsHeader').get_attribute('innerHTML').lstrip().strip()
           itemlist=child.find_elements_by_class_name('entryItem')
           length=None
@@ -56,15 +57,17 @@ class CCLI_scraper():
           measurements={}
           for pair in itemlist:
             kvpair=pair.find_element_by_class_name('entryItemContent').get_attribute('innerHTML').split(":")
+            print(kvpair)
             key=kvpair[0]
-            value=kvpair[1].lstrip().lstrip("<span>").rstrip("</span>")
-            if key == "Sq. Ft.":
-              measurements["floor area"]=value
-              measurements["wall area"]=int(value)*wallHeightFt
-            elif key == "Length (Ft.)":
-              length=value
-            elif key == "Width (Ft.)":
-              width=value
+            if len(kvpair) > 1:
+                value=kvpair[1].lstrip().lstrip("<span>").rstrip("</span>")
+                if key == "Sq. Ft.":
+                  measurements["floor area"]=value
+                  measurements["wall area"]=int(value)*wallHeightFt
+                elif key == "Length (Ft.)":
+                  length=value
+                elif key == "Width (Ft.)":
+                  width=value
           if length is not None and width is not None:
             measurements["perimeter"]=(int(length)*2) + (int(width)*2)
           results[section]=measurements
