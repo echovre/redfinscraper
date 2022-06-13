@@ -1,0 +1,6 @@
+tasks:
+  - init: |
+      echo 'Installing selenium'
+      pip3 install selenium
+    command: |
+      python redfinscraper.py
