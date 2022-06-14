@@ -1,10 +1,13 @@
 tasks:
   - init: |
-      echo 'Installing selenium'
-      pip3 install selenium
+      #echo 'Installing selenium'
+      #pip3 install selenium
       brew install rbenv
       brew install aws-okta
       brew install awscli
       brew install dnsmasq
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+      chmod +x mono
     command: |
-      python redfinscraper.py
+      #python redfinscraper.py
+      ./mono
